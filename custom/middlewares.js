@@ -10,7 +10,7 @@ function logger(req, res, next) {
 
 //user valiations
 function validateUserId(req, res, next) {
-  if (req.params.id) return next();
+  if (req.params.id) next();
   else next({ status: 400, message: "invalid user id" });
 }
 
@@ -28,7 +28,6 @@ function validateUser(req,res,next) {
 }
 //posts validations
 function validatePost(req,res,next) {
-
     if(!Object.keys(req.body).length || req.body.constructor !== Object) {
         return next({status:400, message: "missing post data" })
     }
@@ -38,10 +37,21 @@ function validatePost(req,res,next) {
     Posts.getById(req.params.id)
     .then(post => {
         req.post = post;
+        next();
     })
     .catch(() =>{
-        next()
+        next({status:500,message:"Couldnt validate post"})
     })
+}
+
+function validatePostId(req,res,next) {
+    if(!req.params.id) {
+        return next({status:400,message:"No post id found"})
+    }
+
+    next();
+
+   
 }
 
 module.exports = {
@@ -49,4 +59,5 @@ module.exports = {
   validateUserId,
   validateUser,
   validatePost,
+  validatePostId
 };
