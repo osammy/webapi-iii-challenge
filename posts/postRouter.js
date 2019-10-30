@@ -1,22 +1,16 @@
-const express = 'express';
-
+const express = require('express');
+const helpers = require("./post.helpers")
 const router = express.Router();
+const verify = require("../custom")
 
-router.get('/', (req, res) => {
+router.route("/")
+.get(helpers.getPosts);
 
-});
+router.route("/:id")
+.get(verify.validatePostId,helpers.getPost)
+.put(verify.validatePostId,helpers.updatePost)
+.delete(verify.validatePostId,helpers.deletePost);
 
-router.get('/:id', (req, res) => {
-
-});
-
-router.delete('/:id', (req, res) => {
-
-});
-
-router.put('/:id', (req, res) => {
-
-});
 
 // custom middleware
 

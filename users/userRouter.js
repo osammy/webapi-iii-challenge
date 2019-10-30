@@ -1,4 +1,6 @@
-const express = 'express';
+const express = require('express');
+const User = require("./userDb");
+const verify = require("../custom") 
 
 const router = express.Router();
 
@@ -11,7 +13,14 @@ router.post('/:id/posts', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-
+    User
+    .get()
+    .then(user => {
+        res.json(user)
+    })
+    .catch(err => {
+        console.log(err)
+    })
 });
 
 router.get('/:id', (req, res) => {
