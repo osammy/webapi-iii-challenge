@@ -1,47 +1,26 @@
-const express = 'express';
+const express = require('express');
+const verify = require("../custom/middlewares");
+const userHelpers =  require("./user.helpers");
+
+const validateUser = [verify.validateUserId, verify.validateUser];
+const validateUserPost = [verify.validateUserId, verify.validatePost];
 
 const router = express.Router();
+//start
+router.route("/")
+.post(userHelpers.createUser)
+.get(userHelpers.getUsers)
 
-router.post('/', (req, res) => {
+router.route("/:id")
+.get(validateUser,userHelpers.getUser)
+.delete(validateUser,userHelpers.deleteUser)
+.put(validateUser,userHelpers.updateUser);
 
-});
+router.route("/:id/posts")
+.get(validateUser,userHelpers.getUserPosts)
+.post(validateUserPost,userHelpers.createUserPost)
 
-router.post('/:id/posts', (req, res) => {
+//end
 
-});
-
-router.get('/', (req, res) => {
-
-});
-
-router.get('/:id', (req, res) => {
-
-});
-
-router.get('/:id/posts', (req, res) => {
-
-});
-
-router.delete('/:id', (req, res) => {
-
-});
-
-router.put('/:id', (req, res) => {
-
-});
-
-//custom middleware
-
-function validateUserId(req, res, next) {
-
-};
-
-function validateUser(req, res, next) {
-
-};
-
-function validatePost(req, res, next) {
-
-};
 
 module.exports = router;
